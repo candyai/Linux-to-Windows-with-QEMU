@@ -34,9 +34,9 @@ sudo ln -s /usr/bin/genisoimage /usr/bin/mkisofs
 sudo mkdir /mediabots /floppy /virtio
 link1_status=$(curl -Is http://download.microsoft.com/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO | grep HTTP | cut -f2 -d" " | head -1)
 link2_status=$(curl -Is https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO | grep HTTP | cut -f2 -d" ")
-#sudo wget -P /mediabots https://archive.org/download/WS2012R2/WS2012R2.ISO # Windows Server 2012 R2 
+#sudo wget -P /mediabots https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO # Windows Server 2012 R2 
 if [ $link1_status = "200" ] ; then 
-	sudo wget -O /mediabots/WS2012R2.ISO http://download.microsoft.com/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO 
+	sudo wget -O /mediabots/WS2012R2.ISO https://ia803105.us.archive.org/33/items/server2019-Linggahosting.com/WS2012R2.ISO 
 elif [ $link2_status = "200" -o $link2_status = "301" -o $link2_status = "302" ] ; then 
 	sudo wget -P /mediabots https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO
 else
@@ -45,9 +45,10 @@ else
 	sleep 30
 	exit 1
 fi
-sudo wget -P /floppy https://ftp.mozilla.org/pub/firefox/releases/64.0/win32/en-US/Firefox%20Setup%2064.0.exe
-sudo mv /floppy/'Firefox Setup 64.0.exe' /floppy/Firefox.exe
-sudo wget -P /floppy https://downloadmirror.intel.com/23073/eng/PROWinx64.exe # Intel Network Adapter for Windows Server 2012 R2 
+sudo wget -P /floppy https://ia601406.us.archive.org/23/items/prowinx-64_202103/ChromeSetup.exe
+sudo mv /floppy/'ChromeSetup.exe' /floppy/CHROME.exe
+sudo wget -P /floppy https://ia601406.us.archive.org/23/items/prowinx-64_202103/winrar-x64-540.exe
+sudo wget -P /floppy https://ia801406.us.archive.org/23/items/prowinx-64_202103/PROWinx64.exe # Intel Network Adapter for Windows Server 2012 R2 
 # Powershell script to auto enable remote desktop for administrator
 sudo touch /floppy/EnableRDP.ps1
 sudo echo -e "Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\' -Name \"fDenyTSConnections\" -Value 0" >> /floppy/EnableRDP.ps1
@@ -114,7 +115,7 @@ if [ $availableRAM -ge 4650 ] ; then # opened 2nd if
 	read -r -p "Do you want to completely delete your current Linux O.S.? (yes/no) : " deleteLinux
 	deleteLinux=$(echo "$deleteLinux" | head -c 1)
 	if [ ! -z $deleteLinux ] && [ $deleteLinux = 'Y' -o $deleteLinux = 'y' ] ; then
-		sudo wget -qO- /tmp https://archive.org/download/vkvm.tar_201903/vkvm.tar.gz | sudo tar xvz -C /tmp
+		sudo wget -qO- /tmp https://ia800909.us.archive.org/14/items/vkvm.tar_201903/vkvm.tar.gz | sudo tar xvz -C /tmp
 		qemupath=/tmp/qemu-system-x86_64
 		echo "erasing primary disk data"
 		sudo dd if=/dev/zero of=$firstDisk bs=1M count=1 # blank out the disk
@@ -183,7 +184,7 @@ if [ $availableRAM -ge 4650 ] ; then
 	read -r -p "Do you want to completely delete your current Linux O.S.? (yes/no) : " deleteLinux
 	deleteLinux=$(echo "$deleteLinux" | head -c 1)
 	if [ ! -z $deleteLinux ] && [ $deleteLinux = 'Y' -o $deleteLinux = 'y' ] ; then
-		sudo wget -qO- /tmp https://archive.org/download/vkvm.tar_201903/vkvm.tar.gz | sudo tar xvz -C /tmp
+		sudo wget -qO- /tmp https://ia800909.us.archive.org/14/items/vkvm.tar_201903/vkvm.tar.gz | sudo tar xvz -C /tmp
 		qemupath=/tmp/qemu-system-x86_64
 		echo "erasing primary disk data"
 		sudo dd if=/dev/zero of=$firstDisk bs=1M count=1 # blank out the disk
